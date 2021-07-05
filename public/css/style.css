@@ -1,0 +1,18 @@
+:root{
+    --primary: rgb(223, 152, 22);
+    --primary-dark: rgb(180, 119, 6);
+}
+
+body{
+    background-color: rgb(194, 197, 195);
+}
+
+/* .hoverEffect:hover{
+    background: var(--primary);
+    transition: all 0.3s ease-in-out;
+} */
+
+.cartColor{
+    background: var(--primary);
+
+}

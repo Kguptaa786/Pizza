@@ -1,9 +1,16 @@
+require('dotenv').config()  //requiring env variable
 const express = require('express')
 const app = express()
 const ejsMate = require('ejs-mate')
 const path = require('path')
 const mongoose = require('mongoose')
+const flash = require('express-flash')
+const session = require('express-session')
 const PORT = process.env.PORT || 4000
+
+const MongoDBStore = require('connect-mongo')      //this is for session store in db
+
+
 
 
 //database connection
@@ -17,11 +24,42 @@ connection.once('open', () => {
     console.log('Connection failed....')
 })
 
+
+
+//flash middleware
+app.use(flash())
+
+//session store setup
+const mongoStore = MongoDBStore.create({
+    mongoUrl: url, //we previously setup connection and store in connection var
+    collection: 'sessions'       //this is collection name, it create session table in db
+})
+
+
+//session config
+app.use(session({
+    secret: process.env.COOKIE_SECRET,
+    resave: false,
+    store: mongoStore,          //storing session to mongoStore Collection
+    saveUninitialized: false,
+    cookie: { maxAge: 1000 * 60 * 60 * 24 }     //cookie expire time 24hours
+}))
+
+//Global Middleware
+app.use((req, res, next) => {
+    res.locals.session = req.session
+    next()
+})
+
+
+app.use(express.static(path.join(__dirname, '/public')))
+app.use(express.json())     //by default express does not provide json file thats why we using this
+
+
+
 app.engine('ejs', ejsMate)           //setting ejsMate as engine of ejs 
 app.set('view engine', 'ejs')                //setting ejs view engine
 app.set('views', path.join(__dirname, 'views'))   //setting views directory
-
-app.use(express.static(path.join(__dirname, '/public')))
 
 require('./routes/web')(app)        //we putting all routes to one file
 

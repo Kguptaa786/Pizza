@@ -1,42 +1,46 @@
 <%- layout('layouts/boilerplate') %>
     <section>
-        <!-- <div>
-            <h1>Cart Empty</h1>
-            <p>You probably haven't ordered a pizza yet. To order a pizza, go to the main page.</p>
-            <img src="img/empty-cart.png" alt="">
-            <br>
-            <a href="/">Go back</a>
-        </div> -->
-
-        <div class="container">
-            <div class="d-flex justify-content-center">
-                <img src="img/cart-black.png" alt="" class="me-3 mb-5" style="width: 3rem;">
-                <h1>Order summary</h1>
-            </div>
-            <div class="row">
-                <div class="col d-flex justify-content-center">
-                    <div class="card mb-4 px-4 py-2" style="width: 18rem;">
-                        <img src="img/pizza.png" class="card-img-top" alt="...">
-                        <div class="card-body d-flex justify-content-center">
-                            <p class="card-title text-uppercase fs-5">
-                                MARIANA
+        <% if(session.cart){ %>
+            <div class="container">
+                <div class="d-flex justify-content-center">
+                    <img src="img/cart-black.png" alt="" class="me-3 mb-5" style="width: 3rem;">
+                    <h1>Order summary</h1>
+                </div>
+                <hr>
+                <% for(let pizza of Object.values(session.cart.items)){ %>
+                    <!--we fetching cart item object.value is used to get value beacause we run loop in array and this is item is object-->
+                    <div class="row mb-2">
+                        <div class="col d-flex justify-content-center">
+                            <img src="img/<%= pizza.item.image %>" class="" alt="..."
+                                style="width: 5rem; height: 5rem;">
+                            <div class="d-flex flex-column ps-2">
+                                <p class="card-title text-uppercase fs-6">
+                                    <%= pizza.item.name %>
+                                </p>
+                                <p class="text-uppercase fs-6">
+                                    <%= pizza.item.size %>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col  d-flex justify-content-center">
+                            <p class="fs-5">
+                                <%= pizza.qty %> pcs
                             </p>
                         </div>
-                        <hr>
-                        <div class="d-flex justify-content-between">
-                            <p class="text-uppercase fs-5">
-                                MEDIUM
-                            </p>
-                            <p class="fs-5">
-                                ₹ 250
+                        <div class="col d-flex justify-content-center">
+                            <p class="fs-5 fw-bold">
+                                ₹ <%= pizza.item.price*pizza.qty %>
                             </p>
                         </div>
                     </div>
-                </div>
-                <div class="col">
-                    <div class="mb-3">
+                    <hr>
+                    <% } %>
+            </div>
+            <div class="row">
+                <div class="col-md-8 offset-md-2">
+                    <div class="mb-3 fw-bold">
                         <span>Total Amount:</span>
-                        <span>Rs 300</span>
+                        <span class="fs-5">₹ <%= session.cart.totalPrice %> </span>
                     </div>
                     <div>
                         <form action="">
@@ -56,5 +60,21 @@
                     </div>
                 </div>
             </div>
-        </div>
+            <% }else{ %>
+
+                <div class="row">
+                    <div class="col-md-8 offset-md-2 d-flex flex-column mb-5">
+                        <h1 class="align-self-center">Cart Empty</h1>
+                        <p class="align-self-center">You probably haven't ordered a pizza yet. To order a pizza, go
+                            to the
+                            main page.</p>
+                        <img src="img/empty-cart.png" alt="">
+                        <div class="my-5 align-self-center">
+                            <a href="/" class="fs-3" style="text-decoration: none; color: black;">Go back</a>
+                        </div>
+
+                    </div>
+                </div>
+
+                <% } %>
     </section>

@@ -41,9 +41,12 @@
                                 </div>
 
                                 <div class="card-body">
-                                    <a href="#" class="card-link btn btn-success px-4 d-flex justify-content-center">
+                                    <button data-pizza="<%= JSON.stringify(pizza) %> "
+                                        class="add-to-cart btn btn-success px-5 d-flex justify-content-center">
+                                        <!--data-pizza is an attribute(data) used to access pizza in js file present in public we conerting pizza into json file-->
                                         <span>+</span>
-                                        <span>Add</span></a>
+                                        <span>Add</span>
+                                    </button>
                                 </div>
                             </div>
                         </div>

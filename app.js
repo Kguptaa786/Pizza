@@ -6,6 +6,8 @@ const path = require('path')
 const mongoose = require('mongoose')
 const flash = require('express-flash')
 const session = require('express-session')
+const passport = require('passport')
+
 const PORT = process.env.PORT || 4000
 
 const MongoDBStore = require('connect-mongo')      //this is for session store in db
@@ -23,6 +25,8 @@ connection.once('open', () => {
 }).catch(err => {
     console.log('Connection failed....')
 })
+
+
 
 
 
@@ -45,14 +49,24 @@ app.use(session({
     cookie: { maxAge: 1000 * 60 * 60 * 24 }     //cookie expire time 24hours
 }))
 
+//passport config it must be after session config
+const passportInit = require('./config/passport')
+
+passportInit(passport)
+
+app.use(passport.initialize())
+app.use(passport.session())     //passort work with the help of session
+
 //Global Middleware
 app.use((req, res, next) => {
-    res.locals.session = req.session
+    res.locals.session = req.session        //we can access session globally
+    res.locals.user = req.user    //user can be access globally
     next()
 })
 
 
 app.use(express.static(path.join(__dirname, '/public')))
+app.use(express.urlencoded({ extended: false }))
 app.use(express.json())     //by default express does not provide json file thats why we using this
 
 

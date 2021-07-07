@@ -1,5 +1,5 @@
-const monngoose = require('mongoose')
-const Schema = monngoose.Schema
+const mongoose = require('mongoose')
+const Schema = mongoose.Schema
 
 const menuSchema = new Schema({
     name: { type: String, required: true },
@@ -8,5 +8,5 @@ const menuSchema = new Schema({
     size: { type: String, required: true }
 })
 
-module.exports = monngoose.model('Menu', menuSchema)
+module.exports = mongoose.model('Menu', menuSchema)
 

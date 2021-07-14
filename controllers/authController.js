@@ -3,11 +3,13 @@ const bcrypt = require('bcrypt')
 const passport = require('passport')
 
 
-
 function authController() {
+    const _getRedirectUrl = (req) => {
+        return req.user.role === 'admin' ? 'admin/orders' : 'customer/order'
+    }
     return {
         login(req, res) {
-            res.render('main/login')
+            res.render('main/auth/login')
         },
         postLogin(req, res, next) {
             //the fn after local is done fn written in passport.js file
@@ -26,12 +28,13 @@ function authController() {
                         return next(err)
                     }
                     //we redirect to order page later
-                    return res.redirect('/')
+                    //we call fn to get redirect url
+                    return res.redirect(_getRedirectUrl(req))
                 })
             })(req, res, next)//this is because authenticate return fn and we need to call it
         },
         register(req, res) {
-            res.render('main/register')
+            res.render('main/auth/register')
         },
         async postRegister(req, res) {
             const { name, email, password } = req.body

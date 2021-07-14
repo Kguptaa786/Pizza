@@ -1,0 +1,46 @@
+<%- layout('layouts/boilerplate') %>
+    <section>
+        <div class="container">
+            <h1>All Orders</h1>
+            <% if(messages.success){ %>
+                <div class="alert alert-success" id="success-alert" role="alert">
+                    <%= messages.success %>
+                </div>
+                <% } %>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Orders</th>
+                                <th scope="col">Phone no.</th>
+                                <th scope="col">Address</th>
+                                <th scope="col">Time</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% if(orders.length){ %>
+                                <% orders.forEach((order)=>{ %>
+                                    <tr>
+                                        <td> <a href="/" style="color: orange; text-decoration: none;">
+                                                <%= order._id %>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <%= order.phone %>
+                                        </td>
+                                        <td>
+                                            <%= order.address %>
+                                        </td>
+                                        <td>
+                                            <%= moment(order.createdAt).format('hh:mm A') %>
+                                        </td>
+                                    </tr>
+                                    <% }) %>
+                                        <% }else{ %>
+                                            <tr>
+                                                <td><span>No orders found!!!</span></td>
+                                            </tr>
+                                            <% } %>
+                        </tbody>
+                    </table>
+        </div>
+    </section>

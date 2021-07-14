@@ -1,7 +1,7 @@
 function cartController() {      //we making factory fn return object
     return {
         cart(req, res) {
-            res.render('main/cart')
+            res.render('main/customers/cart')
         },
         update(req, res) {
             // let cart = {             //this is sample, cart object in which one more onject of item is present which tells us which type of pizza is there

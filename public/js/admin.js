@@ -1,30 +1,6 @@
-// import { initAdmin } from './admin'
-// import axios from 'axios'
-let addToCart = document.querySelectorAll('.add-to-cart')       //a class name at homepage 
-let cartCounter = document.querySelector('#cartCounter')        //a id name at navbar
-
-
-function updateCart(pizza) {
-    axios.post('/update-cart', pizza).then(res => {     //axios is used to send http request from js file
-        cartCounter.innerText = res.data.totalQty
-        notie.alert({
-            text: 'Successfully added to cart',
-            position: 'bottom'
-        })
-    })
-}
-
-addToCart.forEach(btn => {
-    btn.addEventListener('click', (e) => {
-        let pizza = JSON.parse(btn.dataset.pizza)         //this is for accessing data attribute present in html file
-        // console.log(pizza)                          //is we not use JSON Parse,we have string in pizza
-        updateCart(pizza)       //we calling fn to update cart page
-    })
-})
-
-//at orders.ejs page we showing alert message when order placed we need to remove it after some time
+import moment from 'moment'
 function initAdmin() {
-    const orderTableBody = document.querySelector('#orderTableBody')
+    let orderTableBody = document.querySelector('#orderTableBody')
     let orders = []
     let markup
 
@@ -93,4 +69,4 @@ function initAdmin() {
     }
 }
 
-initAdmin()
+// module.exports = initAdmin
